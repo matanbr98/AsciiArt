@@ -1,67 +1,18 @@
-matanbr,nitzanb
-318974573,315408724
+# ASCII Art Image Converter
 
-1. PaddingImage: This class is responsible to padded the given image with white pixels, in order to convert
-the image to be with width and height from power of 2. The class has a private method getClosesPowerOf2 that
-is charge to calculate the closet power of 2 for a given number. The class also has a constructor that is
-charge to pad the image with white pixels and a public method getPaddingImage that returns the padded image.
-The constructor uses Image class methods: getWidth, getHeight, getPixel. This class has a composition
-relationship with Image class.
-SubImages: This class is responsible for dividing a given image into smaller sub-images based on the
-specified resolution. The class has a constructor, a public method setSubImage that divides the image into
-sub-images based on the specified resolution, a public method getSubImages that returns 2D array of sub-images
-created by setSubImage, a public method calculateBrightnessImage that computes the brightness
-of a given image using a formula and returns the normalize brightness value. The class also has a private
-method extractSubImage that is a helper function used by setSubImage to extract a specific sub-image from the
-original image based on the row and column indices. This class has a composition relationship with Image
-class.
-SubImgCharMatcher: This class is responsible for matching the char with the closet brightness to a given
-sub-image brightness. The class has a constructor that initiate a default round method, charset and HashMap
-for brightness cache, and also calls to initiate method.
-The class has private methods: initializeBrightnessMap that add to a map of the brightness values for the char
-set, find the minimum and maximum brightness values and create brightness map; updateBrightnessMap that do
-the same, just been called every time the char set is changing; createBrightnessMap create HashMap where
-keys are the chars and values are their brightness value; getCachedBrightness if the brightness value
-already been saved this function returns the saved value, otherwise calculate it using getBrightness;
-getBrightness calculate the brightness value of a char; calculateRoundVal returns the char's brightness
- according to the round method.
-Also has public methods: getCharByImageBrightness returns the character that is closet to a given brightness
-value; addChar add char to the charset and calls updateBrightnessMap; removeChar removes char from the
-charset and calls updateBrightnessMap. addChar and removeChar have been called from the Shell; getCharset
-returns the charset; setRoundSubMatcher change the round method and has been called from the Shell.
-The Shell class creates an instance of this class and supply it to the AsciiArtAlgorithm.
-AsciiArtAlgorithm: This class implements the logic for generating ASCII art from an image. It accepts an
-input image, a resolution, a character set, and a rounding method to determine the best ASCII representation
- of the image. Using the SubImages class, it divides the image into smaller sub-images based on the
-resolution, calculates the brightness of each sub-image, and maps it to the closest character in the given
-character set using the SubImgCharMatcher. The resulting ASCII art is represented as a 2D array of characters.
-Shell: This class acts as the user interface for the program, handling input commands and orchestrating
-the ASCII art generation process. It supports commands to modify the character set, adjust the resolution,
-change the rounding method, and choose the output format. The class uses the AsciiArtAlgorithm to generate
-ASCII art and outputs it through either a ConsoleAsciiOutput or HtmlAsciiOutput object. The shell validates
-input commands and handles exceptions for invalid inputs.
-2. SubImgCharMatcher:
-We choose to implement the charset with a Treeset for its natural ordering and efficient O(logn) time
-complexity for insertion, deletion, and lookup operations. Its sorted structure ensures easy access
-to the smallest or first character.
-We choose to implement the charBrightnessMap and brightnessCache with a hashMap, because this data structure
-enables to save a char and his brightness value together and because the lookup, insertion and deletion
-time complexity is O(1).
-3. We used Java exception handling mechanism in the Shell class. The run method processes user input by
- invoking various functions that handle specific requests. Initially, the method attempts
- to create an Image object, and if an exception occurs it is caught and handled appropriately. Additionally,
- several helper functions throw exceptions when user input is invalid or an operation is not possible.
- These exceptions are caught in the run method, which then handles them by displaying relevant error messages
- to the user, preventing the program from crashing and allowing for a better user experience.
- In addition we added an exception: OutOfImagesSizeException in order to handle the case when the user want
- to change the image resolution out of image's size limitations.
-4. We added two extra functions to SubImgCharMatcher class:
-getCharset: The charset is managed within the run method in the Shell class, which is responsible for adding
-or removing characters. The runAlgorithmAscii function, however, doesn't receive any data about the charset,
-but it is responsible for throwing an exception if the given charset is too small. We decided that providing
-the charset through SubImgCharMatcher doesn't break encapsulation, as it enables the function to handle
-exceptions effectively.
-setRoundSubMatcher: The rounding method is used to find the character with the closest brightness value for
-a given sub-image. However, since the rounding method can be changed by the user in the Shell class,
-we added this function to allow the Shell class to update the rounding method dynamically.
+This project is an **image-to-ASCII art converter** that transforms image files into text-based artwork.
 
+## Features
+
+- Convert images into ASCII art using customizable character sets.
+- Control the output resolution (number of characters per line / per row).
+- Output the result directly to the console or to an HTML file.
+- Includes a simple user interface for choosing:
+  - Image file path
+  - ASCII characters set
+  - Resolution
+  - Output type (console / HTML)
+
+## Technologies
+
+- Language: Java
